@@ -14,10 +14,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_student"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,6 +29,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/skeleton"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/skeleton_student_list" />
+
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/cpi_loading"
@@ -42,5 +49,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
