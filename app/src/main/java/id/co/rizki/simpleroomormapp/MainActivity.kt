@@ -1,11 +1,11 @@
 package id.co.rizki.simpleroomormapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.co.rizki.simpleroomormapp.databinding.ActivityMainBinding
-import id.co.rizki.simpleroomormapp.entity.Student
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         dataBase = StudentDatabase.getInstance(this)
 
-        fetchData()
-
         binding.rvStudent.layoutManager = LinearLayoutManager(this)
 
         binding.fabAdd.setOnClickListener {
@@ -35,20 +33,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        binding.cpiLoading.show()
+
         fetchData()
     }
 
     fun fetchData(){
-        GlobalScope.launch {
-            val listStudent = dataBase?.studentDao()?.getAllStudent()
+        val handler = Handler()
+        handler.postDelayed({
 
-            runOnUiThread{
-                listStudent?.let {
-                    val adapter = ListAdapter(it)
-                    binding.rvStudent.adapter = adapter
+            binding.cpiLoading.hide()
+
+            GlobalScope.launch {
+                val listStudent = dataBase?.studentDao()?.getAllStudent()
+
+                runOnUiThread{
+                    listStudent?.let {
+                        val adapter = ListAdapter(it)
+                        binding.rvStudent.adapter = adapter
+                    }
                 }
             }
-        }
+        }, 2000)
+
     }
 
 }
