@@ -25,25 +25,36 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvStudent.layoutManager = LinearLayoutManager(this)
 
+        fetchData()
+
         binding.fabAdd.setOnClickListener {
             val intent = Intent(this, AddStudentActivity::class.java)
             startActivity(intent)
         }
+
+        binding.srlStudent.setOnRefreshListener {
+            fetchData()
+        }
+
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        binding.cpiLoading.show()
-
-        fetchData()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//
+//        binding.cpiLoading.show()
+//
+//        fetchData()
+//    }
 
     fun fetchData(){
+        binding.srlStudent.isRefreshing = true
+
         val handler = Handler()
         handler.postDelayed({
 
             binding.cpiLoading.hide()
+
+            binding.srlStudent.isRefreshing = false
 
             GlobalScope.launch {
                 val listStudent = dataBase?.studentDao()?.getAllStudent()
